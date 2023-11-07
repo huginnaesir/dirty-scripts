@@ -1,0 +1,1 @@
+while read p; do dig -t PTR $p | grep arpa.\ 0; done < arpa.txt > reverse.txt
