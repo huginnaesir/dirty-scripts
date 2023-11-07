@@ -1,0 +1,1 @@
+cat IPs.txt | awk -F"." '{ print $NF-0"."$3"."$2"."$1".in-addr.arpa" }' > arpa.txt
