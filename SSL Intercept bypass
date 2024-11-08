@@ -1,0 +1,8 @@
+From Jumphost
+# sshuttle --dns -vr root@[kaliIP]:[kaliOpenPort] 0/0 -x 10.0.0.0/8 --ssh-cmd ‘ssh -i [privKey]’
+ 
+	- 0/0, forward all IPs through VPN
+	- 172.16.0.0/12, forward specific subnet	
+	- -x 10.0.0.0/8, do not forward through VPN
+
+	-x tells the jumphost what IPs to stay local for. When calling out to any 10.0.0.0/8 IP the VPN session knows to reach out locally instead of through Kali.
