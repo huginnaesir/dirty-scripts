@@ -1,0 +1,19 @@
+1) From Jumphost -> ssh -i ./id_rsa root@kaliIP -p 25632 -R [Internal_Interface_Name]:444:localhost:22
+		-p 25632 -- You must configure SSH on Kali to run on 25632 (or whatever port designated) in /etc/ssh/sshd_config
+		-i ./id_rsa -- a new key pair must be created and added to Kali's authorized_keys file. Private key stays on jumphost. 
+		-R [Interface_Name]:[Source_Port]:localhost:[Destination_Port] -- Tunnel creation 
+(if you do not include the VPN/internal interface name, you may be fired [ also, we may all lose our jobs for your negligence ])
+ 
+	2) From Kali -> ssh -i /root/.ssh/client_priv_key jumpHostUser@127.0.0.1 -p 444 -L [Kali_HamachiIP]:8835:127.0.0.1:8834
+(again, you will be fired if you do not specify the hamachi IP)
+	3) Cleanup, when done remove known_host from file:
+			ssh-keygen -f "/root/.ssh/known_hosts" -R "[127.0.0.1]:444"
+
+client_priv_key is the private key for the public key we give to clients. never put this key on a client host
+If you get an error that the host key fingerprint is different, delete the old known host. the IP is always localhost so if you reuse the port, ssh thinks something nefarious happened.
+
+I swear, if you do not use the Internal_Interface_Name on the client host or you do not use the Hamachi/VPN interface for our kali host, there is a 98% chance you will be fired.
+If i find it before you do, it's a 99.999% chance you are fired. Come to me immediately after killing the tunnel if this happens and we will investigate. 
+everyone makes mistakes, but this would be a massive one. If you don't come to me to tell me about it, there is a 100% chance you are fired.
+If you set it to an external interface on the client for more than maybe 10 seconds, you are fired.
+This is not me ruling arbitrarily with an iron fist. if you set a public interface, you risk our company and our client being breached very easily.
